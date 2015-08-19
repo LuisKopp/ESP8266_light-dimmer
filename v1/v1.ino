@@ -2,8 +2,8 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
  
-const char* ssid = "MAKERCLUB-CM";
-const char* password = "welcomegogogo";
+const char* ssid = "NAT.11";
+const char* password = "guestnetwork";
 
 const byte switchPin = 14;
 const byte zcPin = 5;
@@ -109,7 +109,7 @@ void zcDetect()
       int dimtime = (75*curBrightness);    // For 60Hz =>65    
   delayMicroseconds(dimtime);    // Wait till firing the TRIAC
   digitalWrite(outPin, HIGH);   // Fire the TRIAC
-  delayMicroseconds(10);         // triac On propogation delay (for 60Hz use 8.33)
+  delayMicroseconds(5);         // triac On propogation delay (for 60Hz use 8.33)
   digitalWrite(outPin, LOW);
 //      digitalWrite(outPin, 1);
 //      
@@ -120,10 +120,10 @@ void zcDetect()
 //      //delayMicroseconds(150);
     }
     
-    if (fade == 1 && (curBrightness > tarBrightness || (state == 0 && curBrightness > 0))) {
+    if (fade == 1 && (curBrightness > tarBrightness || (state == 0 && curBrightness > 128))) {
       curBrightness -= 1;
     }
-    else if (fade == 1 && curBrightness < tarBrightness && state == 1 && curBrightness < 255) {
+    else if (fade == 1 && curBrightness < tarBrightness && state == 1 && curBrightness < 20) {
       curBrightness += 1;
     }
     else if (fade == 0 && state == 1) {
