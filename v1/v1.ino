@@ -101,42 +101,16 @@ void switchDetect()
 
 void zcDetect()
 {
-  //detachInterrupt(zcPin);
-  if (zcState == 0) {
-    zcState = 1;
-  
-    if (curBrightness < 128 && curBrightness > 0) {
-      int dimtime = (75*curBrightness);    // For 60Hz =>65    
+
+    if (tarBrightness < 128 && tarBrightness > 1) {
+       int x=map(tarBrightness,100,0,1,128);
+      int dimtime = (75*x);    // For 60Hz =>65    
+     // Serial.println(x);
   delayMicroseconds(dimtime);    // Wait till firing the TRIAC
   digitalWrite(outPin, HIGH);   // Fire the TRIAC
   delayMicroseconds(5);         // triac On propogation delay (for 60Hz use 8.33)
   digitalWrite(outPin, LOW);
-//      digitalWrite(outPin, 1);
-//      
-//      int dimDelay = 75*curBrightness;    
-//      delayMicroseconds(dimDelay);
-//      
-//      digitalWrite(outPin, 0);
-//      //delayMicroseconds(150);
-    }
-    
-    if (fade == 1 && (curBrightness > tarBrightness || (state == 0 && curBrightness > 128))) {
-      curBrightness -= 1;
-    }
-    else if (fade == 1 && curBrightness < tarBrightness && state == 1 && curBrightness < 20) {
-      curBrightness += 1;
-    }
-    else if (fade == 0 && state == 1) {
-      curBrightness = tarBrightness;
-    }
-    else if (fade == 0 && state == 0) {
-      curBrightness = 0;
+
     }
 
-    zcState = 2;
-  }
-  else if (zcState == 2) {
-    zcState = 0;
-  }
-  //attachInterrupt(zcPin, zcDetect, RISING); 
 }
